@@ -8,6 +8,7 @@ namespace Entidades
 {
     public class Producto
     {
+        //Alba
         public int Codigo { get; set; }
         public string Descripcion { get; set; }
         public int Existencia { get; set; }
