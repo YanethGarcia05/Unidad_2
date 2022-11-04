@@ -1,22 +1,19 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entidades;
-using System.Security.Cryptography.X509Certificates;
+using MySql.Data.MySqlClient;
 
 namespace Datos
 {
     public class UsuarioDatos
     {
-        //Alba Yaneth Garcia Mejia
-        //metodo login: ayuda a validar que el usuario ingrese correctamente su usuario o contraseña
-        public async Task<bool> LoginAsync(string codigo,string clave)
+        public async Task<bool> LoginAsync(string codigo, string clave)
         {
-            bool valido=false;
+            bool valido = false;
             try
             {
                 string sql = "SELECT 1 FROM usuario WHERE Codigo=@Codigo AND Clave=@Clave;";
@@ -25,20 +22,20 @@ namespace Datos
                 using (MySqlConnection _conexion = new MySqlConnection(CadenaConexion.Cadena))
                 {
                     await _conexion.OpenAsync();
-                    using(MySqlCommand comando = new MySqlCommand(sql,_conexion))
+                    using (MySqlCommand comando = new MySqlCommand(sql, _conexion))
                     {
                         //tipo comando: texto
-                        comando.CommandType=System.Data.CommandType.Text;
+                        comando.CommandType = System.Data.CommandType.Text;
                         //er en base de datos 
                         comando.Parameters.Add("@Codigo", MySqlDbType.VarChar, 20).Value = codigo;
                         comando.Parameters.Add("@Clave", MySqlDbType.VarChar, 120).Value = clave;
 
-                        valido=Convert.ToBoolean (await comando.ExecuteScalarAsync());
+                        valido = Convert.ToBoolean(await comando.ExecuteScalarAsync());
                     }
                 }
             }
             catch (Exception ex)
-            {               
+            {
             }
             return valido;
             //metodo para validar si un usuario esta loogueado correctamente o no
@@ -46,7 +43,7 @@ namespace Datos
 
 
         //metodo que va permitir consultar todos los usuarios o devolver los usuarios que tengo en mi tabla usuario
-        public async Task <DataTable> DevolverListaAsync()
+        public async Task<DataTable> DevolverListaAsync()
         {
             DataTable dt = new DataTable();
             try
@@ -61,8 +58,8 @@ namespace Datos
                     {
                         //tipo comando: texto
                         comando.CommandType = System.Data.CommandType.Text;
-                        MySqlDataReader dr =(MySqlDataReader) await comando.ExecuteReaderAsync();
-                        dt.Load(dr); 
+                        MySqlDataReader dr = (MySqlDataReader)await comando.ExecuteReaderAsync();
+                        dt.Load(dr);
                     }
                 }
             }
@@ -108,11 +105,11 @@ namespace Datos
 
 
         //metodo actualizar usuario
-        public async Task <bool> ActualizarAsync (Usuario usuario)
+        public async Task<bool> ActualizarAsync(Usuario usuario)
+        {
+            bool actualizo = false;
+            try
             {
-                bool actualizo = false;
-                try
-                {
                 string sql = "UPDATE usuario SET Nombre=@Nombre, Clave=@Clave, Correo=@Correo, Rol=@Rol, EstaActivo=@EstaActivo WHERE Codigo=@Codigo";
                 //conexion de mysql
                 using (MySqlConnection _conexion = new MySqlConnection(CadenaConexion.Cadena))
@@ -133,15 +130,15 @@ namespace Datos
                     }
                 }
             }
-                catch (Exception)
-                {
-                }
-            return actualizo;
+            catch (Exception)
+            {
             }
+            return actualizo;
+        }
 
 
         //metodo eliminar
-        public async Task <bool> EliminarAsync(string codigo)
+        public async Task<bool> EliminarAsync(string codigo)
         {
             bool elimino = false;
             try
@@ -160,7 +157,7 @@ namespace Datos
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
             return elimino;

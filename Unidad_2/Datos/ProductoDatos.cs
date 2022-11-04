@@ -1,11 +1,12 @@
-﻿using Entidades;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+using Entidades;
 
 namespace Datos
 {
@@ -153,7 +154,5 @@ namespace Datos
             }
             return imagen;
         }
-
     }
 }
-
