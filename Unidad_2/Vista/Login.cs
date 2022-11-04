@@ -7,8 +7,7 @@ namespace Vista
         public Login()
         {
             InitializeComponent();
-        }
-        //Alba
+        }//
         private async void AceptarButton_Click(object sender, EventArgs e)
         {
             if (CodigoUsuarioTextBox.Text==String.Empty)
@@ -44,5 +43,7 @@ namespace Vista
         {
             Close();
         }
+        //
+
     }
 }
